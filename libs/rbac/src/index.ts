@@ -61,7 +61,7 @@ export class AccessControl<U extends UserBase, C extends string = string, RMap e
     return grant;
   }
 
-  can<R = any>(user: U): PermissionChecker<U, C, RMap> | null {
+  can(user: U): PermissionChecker<U, C, RMap> | null {
     const grant = this.grants[user.role];
 
     if (!grant) {
