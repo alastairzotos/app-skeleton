@@ -10,7 +10,7 @@ import { getEnv } from "@/utils/env";
 
 export const supertokensConfig = (): SuperTokensConfig => ({
   appInfo: {
-    appName: "Instafinds",
+    appName: getEnv().appName,
     apiDomain: getEnv().apiUrl,
     websiteDomain: getEnv().clientUrl,
     apiBasePath: "/api/v1/auth",
