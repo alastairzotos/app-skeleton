@@ -5,7 +5,7 @@ export interface ACConfig<U>{
 }
 
 export type PermissionCheck<U, R = any> = (user: U, resource?: R) => Promise<boolean> | boolean;
-const defaultPermissionCheck: PermissionCheck<any, any> = () => Promise.resolve(true);
+const defaultPermissionCheck: PermissionCheck<any, any> = () => true;
 
 export interface Permissions<U, R = any> {
   create?: PermissionCheck<U, R>;
