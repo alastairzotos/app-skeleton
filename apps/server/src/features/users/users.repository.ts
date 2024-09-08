@@ -17,6 +17,13 @@ export class UsersRepository {
     return user;
   }
 
+  async getByEmail(email: string) {
+    return await this.db.query.UserTable.findFirst({
+      where: (t, { eq }) => eq(t.email, email),
+      columns: { hashedPassword: false },
+    });
+  }
+
   async getByEmailWithPassword(email: string) {
     return await this.db.query.UserTable.findFirst({ where: (t, { eq }) => eq(t.email, email) });
   }

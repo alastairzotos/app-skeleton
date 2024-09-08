@@ -10,7 +10,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
     private readonly cryptoService: CryptoService,
-  ) {}
+  ) { }
 
   async login(user: PublicUser) {
     const payload = { email: user.email, id: user.id };
@@ -29,5 +29,15 @@ export class AuthService {
     }
 
     return null;
+  }
+
+  async validateOAuthLogin(email: string) {
+    const user = await this.usersService.getByEmail(email);
+
+    if (!user) {
+      // register
+    }
+
+    return user;
   }
 }

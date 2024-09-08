@@ -16,6 +16,10 @@ export class UsersService {
     return await this.usersRepo.registerWithEmailAndPassword(email, hashedPassword);
   }
 
+  async getByEmail(email: string) {
+    return await this.usersRepo.getByEmail(email);
+  }
+
   async getByEmailWithPassword(email: string) {
     return await this.usersRepo.getByEmailWithPassword(email);
   }
