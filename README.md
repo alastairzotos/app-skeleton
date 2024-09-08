@@ -20,7 +20,19 @@ It includes:
 
 --- 
 
-To setup:
-* Supertokens
-  - Look up setting up email and SMS auth: https://supertokens.com/docs/thirdpartypasswordless/nestjs/guide
-  - Update database name, user, password in docker-compose between both db and supertokens services
+## Setup
+
+#### Initial steps
+
+* Copy existing `.env.example` files into corresponding `.env` files
+* Update values such as `APP_NAME` in `.env` files 
+* Run `docker-compose up -d`
+  - Modify the database name, user, password etc in `docker-compose.yml` if necessary
+* Install dependencies with `yarn`
+* Start the applications with `yarn dev`
+
+
+#### SuperTokens
+* Go to the dashboard at http://localhost:3001/api/v1/auth/dashboard/
+* Follow instructions to create a new admin user (remove API key line)
+* Look up setting up email and SMS auth: https://supertokens.com/docs/thirdpartypasswordless/nestjs/guide
