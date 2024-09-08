@@ -17,6 +17,7 @@ It includes:
   - No App Router or any of that black magic
   - Auth using SuperTokens
 * A shared `models` library with example schemas
+* A simple RBAC library
 
 --- 
 
