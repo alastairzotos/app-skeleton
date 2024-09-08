@@ -16,11 +16,18 @@ export const supertokensConfig = (): SuperTokensConfig => ({
     apiBasePath: "/api/v1/auth",
     websiteBasePath: "/auth"
   },
+  style: `
+    a[data-supertokens="superTokensBranding"] {
+      display: none;
+    }
+  `,
   recipeList: [
     ThirdParty.init({
       signInAndUpFeature: {
         providers: [
-          Google.init(),
+          Google.init({
+
+          }),
           Facebook.init(),
         ]
       }
