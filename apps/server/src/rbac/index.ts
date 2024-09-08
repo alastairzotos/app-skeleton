@@ -14,7 +14,7 @@ interface ResourceMap {
   otherTable: OtherTable;
 }
 
-export const ac = new AccessControl<UserData, keyof ResourceMap, ResourceMap>({
+export const ac = new AccessControl<UserData, ResourceMap>({
   getUserRole: (user) => user.role,
 });
 

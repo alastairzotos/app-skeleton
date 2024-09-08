@@ -51,26 +51,26 @@ export class PermissionChecker<U, C extends string, RMap extends ResourceMap<C>>
   }
 }
 
-export class AccessControl<U, C extends string = string, RMap extends ResourceMap<C> = ResourceMap<C>> {
-  private grants: Record<string, Grant<U, C, RMap>> = {};
+export class AccessControl<U, RMap extends ResourceMap<string> = ResourceMap<string>> {
+  private grants: Record<string, Grant<U, Extract<keyof RMap, string>, RMap>> = {};
 
   constructor(private config: ACConfig<U>) {}
 
   grant(role: string) {
-    const grant = new Grant<U, C, RMap>();
+    const grant = new Grant<U, Extract<keyof RMap, string>, RMap>();
 
     this.grants[role] = grant;
 
     return grant;
   }
 
-  can(user: U): PermissionChecker<U, C, RMap> | null {
+  can(user: U): PermissionChecker<U, Extract<keyof RMap, string>, RMap> | null {
     const grant = this.grants[this.config.getUserRole(user)];
 
     if (!grant) {
       return null;
     }
 
-    return new PermissionChecker<U, C, RMap>(user, grant);
+    return new PermissionChecker<U, Extract<keyof RMap, string>, RMap>(user, grant);
   }
 }
