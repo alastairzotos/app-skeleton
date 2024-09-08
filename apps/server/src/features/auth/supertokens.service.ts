@@ -1,11 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import supertokens from "supertokens-node";
 import Session from 'supertokens-node/recipe/session';
 import ThirdParty from "supertokens-node/recipe/thirdparty"
 import EmailPassword from "supertokens-node/recipe/emailpassword"
-import { ConfigService } from '@nestjs/config';
-import { AuthModuleConfig, InjectSuperTokens } from 'features/auth/config.provider';
 import Dashboard from "supertokens-node/recipe/dashboard";
+import UserMetadata from "supertokens-node/recipe/usermetadata";
+
+import { AuthModuleConfig, InjectSuperTokens } from 'features/auth/config.provider';
 
 @Injectable()
 export class SupertokensService {
@@ -20,10 +22,27 @@ export class SupertokensService {
         apiKey: supertokensConfig.apiKey,
       },
       recipeList: [
-        EmailPassword.init({}),
+        EmailPassword.init({
+          override: {
+            apis: (originalImplementation) => ({
+              ...originalImplementation,
+              signUpPOST: async function (input) {
+                const response = await originalImplementation.signUpPOST!(input);
+                
+                if (response.status === 'OK') {
+                  await UserMetadata.updateUserMetadata(response.user.id, {
+                    role: 'user',
+                    preferences: { theme: 'light' },
+                  });
+                }
+
+                return response;
+              },
+            }),
+          },
+        }),
+
         ThirdParty.init({
-          // We have provided you with development keys which you can use for testing.
-          // IMPORTANT: Please replace them with your own OAuth keys for production use.
           signInAndUpFeature: {
             providers: [
               {
@@ -36,12 +55,33 @@ export class SupertokensService {
                 }
               },
             ],
+          },
+          override: {
+            apis: (originalImplementation) => ({
+              ...originalImplementation,
+              signInUpPOST: async function (input) {
+                const response = await originalImplementation.signInUpPOST!(input);
+
+                if (response.status === 'OK' && response.createdNewRecipeUser) {
+                  await UserMetadata.updateUserMetadata(response.user.id, {
+                    role: 'user',
+                    preferences: { theme: 'light' },
+                  });
+                }
+
+                return response;
+              },
+            }),
           }
         }),
+
         Session.init(),
+
         Dashboard.init({
           admins: ['alastairzotos@gmail.com'],
         }),
+
+        UserMetadata.init(),
       ],
     });
   }

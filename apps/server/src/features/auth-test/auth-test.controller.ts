@@ -1,21 +1,21 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'features/auth/auth.guard';
-import { Session } from 'decorators/session.decorator';
-import { SessionContainer } from 'supertokens-node/recipe/session';
+import { Principal, UserData } from 'decorators/principal.decorator';
+import { ac } from 'rbac';
 
 @Controller('auth-test')
 export class AuthTestController {
   @Get()
   @UseGuards(AuthGuard)
   async test(
-    @Session() session: SessionContainer
+    @Principal() user: UserData,
   ) {
-    console.log({
-      sessionHandle: session.getHandle(),
-      userId: session.getUserId(),
-      accessTokenPayload: session.getAccessTokenPayload(),
-    })
+    console.log(user);
 
+    console.log(ac.can(user).read('collection', { ownerId: user.userId }));
+    console.log(ac.can(user).read('collection', { ownerId: '1234' }));
+    console.log(ac.can(user).read('other-table'));
+    
     return 'hello';
   }
 }
