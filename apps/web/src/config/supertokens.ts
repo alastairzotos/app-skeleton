@@ -1,11 +1,11 @@
 import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
-import ThirdParty, { Github, Google, Facebook, Apple } from "supertokens-auth-react/recipe/thirdparty";
+import ThirdParty, { Google, Facebook } from "supertokens-auth-react/recipe/thirdparty";
 import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
 import Session from "supertokens-auth-react/recipe/session";
 import Router from 'next/router'
-
 import { ThirdPartyPreBuiltUI } from 'supertokens-auth-react/recipe/thirdparty/prebuiltui';
 import { EmailPasswordPreBuiltUI } from 'supertokens-auth-react/recipe/emailpassword/prebuiltui';
+
 import { getEnv } from "@/utils/env";
 
 export const supertokensConfig = (): SuperTokensConfig => ({
@@ -20,10 +20,8 @@ export const supertokensConfig = (): SuperTokensConfig => ({
     ThirdParty.init({
       signInAndUpFeature: {
         providers: [
-          Github.init(),
           Google.init(),
           Facebook.init(),
-          Apple.init(),
         ]
       }
     }),
