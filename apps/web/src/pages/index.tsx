@@ -1,3 +1,5 @@
+import { getEnv } from "@/utils/env";
+import { urls } from "@/utils/urls";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -11,7 +13,7 @@ export default function Home() {
   console.log(!session.loading && session.accessTokenPayload)
 
   const getSecret = () => {
-    fetch('http://localhost:3001/api/v1/auth-test').then(res => res.text()).then(console.log);
+    fetch(`${getEnv().apiUrl}/api/v1/auth-test`).then(res => res.text()).then(console.log);
   }
 
   const onButtonClick = async () => {
@@ -20,9 +22,9 @@ export default function Home() {
       await signOut();
       setSigningOut(false);
 
-      router.push('/');
+      router.push(urls.home());
     } else {
-      router.push('/auth');
+      router.push(urls.login());
     }
   }
 
@@ -43,7 +45,7 @@ export default function Home() {
         Fetch auth test
       </button>
 
-      <Link href="/auth-test">Auth test page</Link>
+      <Link href={urls.authTest()}>Auth test page</Link>
     </div>
   );
 }

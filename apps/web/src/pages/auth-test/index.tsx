@@ -1,11 +1,11 @@
+import { Protected } from "@/components/lib/protected";
 import { NextPage } from "next";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
 
 const AuthTestPage: NextPage = () => {
   return (
-    <SessionAuth>
+    <Protected>
       <p>Authenticated</p>
-    </SessionAuth>
+    </Protected>
   )
 }
 
