@@ -4,10 +4,11 @@ export interface ACConfig<U>{
   getUserRole: (user: U) => string;
 }
 
-export type PermissionCheck<U, R = any> = (user: U, resource?: R) => boolean;
+export type PermissionCheck<U, R = any> = (user: U, resource?: R) => Promise<boolean> | boolean;
+const defaultPermissionCheck: PermissionCheck<any, any> = () => Promise.resolve(true);
 
 export interface Permissions<U, R = any> {
-  create?: boolean;
+  create?: PermissionCheck<U, R>;
   read?: PermissionCheck<U, R>;
   update?: PermissionCheck<U, R>;
   delete?: PermissionCheck<U, R>;
@@ -17,25 +18,25 @@ export class Grant<U, C extends string, RMap extends ResourceMap<C>> {
   /** @internal */
   permissions: Record<string, Permissions<U, RMap[C]>> = {};
 
-  create(resourceType: C, allowed = true) {
+  create<K extends C>(resourceType: K, check: PermissionCheck<U, RMap[K]> = defaultPermissionCheck) {
     this.permissions[resourceType] = this.permissions[resourceType] || {};
-    this.permissions[resourceType].create = allowed;
+    this.permissions[resourceType].create = check as any;
     return this;
   }
 
-  read<K extends C>(resourceType: K, check: PermissionCheck<U, RMap[K]> = () => true) {
+  read<K extends C>(resourceType: K, check: PermissionCheck<U, RMap[K]> = defaultPermissionCheck) {
     this.permissions[resourceType] = this.permissions[resourceType] || {};
     this.permissions[resourceType].read = check as any;
     return this;
   }
 
-  update<K extends C>(resourceType: K, check: PermissionCheck<U, RMap[K]> = () => true) {
+  update<K extends C>(resourceType: K, check: PermissionCheck<U, RMap[K]> = defaultPermissionCheck) {
     this.permissions[resourceType] = this.permissions[resourceType] || {};
     this.permissions[resourceType].update = check as any;
     return this;
   }
 
-  delete<K extends C>(resourceType: K, check: PermissionCheck<U, RMap[K]> = () => true) {
+  delete<K extends C>(resourceType: K, check: PermissionCheck<U, RMap[K]> = defaultPermissionCheck) {
     this.permissions[resourceType] = this.permissions[resourceType] || {};
     this.permissions[resourceType].delete = check as any;
     return this;
@@ -45,20 +46,20 @@ export class Grant<U, C extends string, RMap extends ResourceMap<C>> {
 export class PermissionChecker<U, C extends string, RMap extends ResourceMap<C>> {
   constructor(private user: U, private grant: Grant<U, C, RMap>) {}
 
-  create(resourceType: C) {
-    return this.grant.permissions[resourceType]?.create || false;
+  async create<K extends C>(resourceType: K, resource?:  RMap[K]) {
+    return await this.grant.permissions[resourceType]?.create?.(this.user, resource) || false;
   }
 
-  read<K extends C>(resourceType: K, resource?: RMap[K]) {
-    return this.grant.permissions[resourceType]?.read?.(this.user, resource) || false;
+  async read<K extends C>(resourceType: K, resource?: RMap[K]) {
+    return await this.grant.permissions[resourceType]?.read?.(this.user, resource) || false;
   }
 
-  update<K extends C>(resourceType: K, resource?: RMap[K]) {
-    return this.grant.permissions[resourceType]?.update?.(this.user, resource) || false;
+  async update<K extends C>(resourceType: K, resource?: RMap[K]) {
+    return await this.grant.permissions[resourceType]?.update?.(this.user, resource) || false;
   }
 
-  delete<K extends C>(resourceType: K, resource?: RMap[K]) {
-    return this.grant.permissions[resourceType]?.delete?.(this.user, resource) || false;
+  async delete<K extends C>(resourceType: K, resource?: RMap[K]) {
+    return await this.grant.permissions[resourceType]?.delete?.(this.user, resource) || false;
   }
 }
 

@@ -19,7 +19,7 @@ export const ac = new AccessControl<UserData, ResourceMap>({
 });
 
  ac.grant('user')
-  .create('collection')
+  .create('collection', async (user, collection) => Promise.resolve(true))
   .read('collection', (user, collection) => collection.ownerId === user.userId)
   .update('collection', (user, collection) => collection.ownerId === user.userId)
   .delete('collection', (user, collection) => collection.ownerId === user.userId);
