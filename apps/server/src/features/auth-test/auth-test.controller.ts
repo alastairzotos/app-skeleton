@@ -1,6 +1,4 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { Principal } from 'decorators/principal.decorator';
-import { PublicUser } from '@repo/models';
 import { AuthGuard } from 'features/auth/auth.guard';
 import { Session } from 'decorators/session.decorator';
 import { SessionContainer } from 'supertokens-node/recipe/session';
