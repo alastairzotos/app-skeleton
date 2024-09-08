@@ -1,7 +1,7 @@
 import { AccessControl } from "@repo/rbac";
 import { UserData } from "decorators/principal.decorator";
 
-export const ac = new AccessControl<UserData>();
+export const ac = new AccessControl<UserData, 'collection' | 'other-table'>();
 
 export type Collection = {
   ownerId: string;
