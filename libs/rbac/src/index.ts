@@ -13,6 +13,7 @@ export interface Permissions<U, R = any> {
 }
 
 export class Grant<U, C extends string, RMap extends ResourceMap<C>> {
+  /** @internal */
   permissions: Record<string, Permissions<U, RMap[C]>> = {};
 
   read<K extends C>(resourceType: K, check: PermissionCheck<U, RMap[K]> = () => true) {
