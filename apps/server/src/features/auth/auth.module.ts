@@ -1,29 +1,18 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { UsersModule } from 'features/users/users.module';
-import { LocalStrategy } from './strategies/local-strategy/local-strategy.service';
-import { JwtStrategy } from './strategies/jwt-strategy/jwt-strategy.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
-import { CryptoModule } from 'features/crypto/crypto.module';
-import { GoogleStrategy } from './strategies/google-strategy/google-strategy.service';
+import { MiddlewareConsumer, NestModule } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
+import { SupertokensProvider } from './config.provider';
+import { SupertokensService } from './supertokens.service';
+import { AuthMiddleware } from './auth.middleware';
 
 @Module({
-  imports: [
-    ConfigModule,
-    UsersModule,
-    CryptoModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '30m' },
-      })
-    }),
-  ],
-  controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy]
+  imports: [ConfigModule],
+  providers: [SupertokensProvider, SupertokensService],
+  exports: [SupertokensProvider, SupertokensService],
 })
-export class AuthModule {}
+export class AuthModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('*');
+  }
+}

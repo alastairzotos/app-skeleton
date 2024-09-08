@@ -1,12 +1,17 @@
+import React from 'react';
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { getEnv } from "@/utils/env";
+import SuperTokens, { SuperTokensWrapper } from "supertokens-auth-react";
+import { supertokensConfig } from '@/config/supertokens';
+
+if (typeof window !== 'undefined') {
+  SuperTokens.init(supertokensConfig());
+}
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <GoogleOAuthProvider clientId={getEnv().googleClientId}>
+    <SuperTokensWrapper>
       <Component {...pageProps} />
-    </GoogleOAuthProvider>
+    </SuperTokensWrapper>
   );
 }

@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { UserTable } from './tables';
+import { ExampleTable } from './tables';
 
-export const UserTableRelations = relations(UserTable, ({ many }) => ({
+export const ExampleTableRelations = relations(ExampleTable, ({ many }) => ({
 }));
