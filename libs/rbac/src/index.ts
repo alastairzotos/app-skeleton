@@ -1,18 +1,18 @@
 type ResourceMap<C extends string> = Record<C, any>;
 
-export type UserBase = {
-  role: string;
-};
+export interface ACConfig<U>{
+  getUserRole: (user: U) => string;
+}
 
-export type PermissionCheck<U extends UserBase = { role: string }, R = any> = (user: U, resource?: R) => boolean;
+export type PermissionCheck<U, R = any> = (user: U, resource?: R) => boolean;
 
-export interface Permissions<U extends UserBase = UserBase, R = any> {
+export interface Permissions<U, R = any> {
   read?: PermissionCheck<U, R>;
   write?: PermissionCheck<U, R>;
   delete?: PermissionCheck<U, R>;
 }
 
-export class Grant<U extends UserBase, C extends string, RMap extends ResourceMap<C>> {
+export class Grant<U, C extends string, RMap extends ResourceMap<C>> {
   permissions: Record<string, Permissions<U, RMap[C]>> = {};
 
   read<K extends C>(resourceType: K, check: PermissionCheck<U, RMap[K]> = () => true) {
@@ -34,7 +34,7 @@ export class Grant<U extends UserBase, C extends string, RMap extends ResourceMa
   }
 }
 
-export class PermissionChecker<U extends UserBase, C extends string, RMap extends ResourceMap<C>> {
+export class PermissionChecker<U, C extends string, RMap extends ResourceMap<C>> {
   constructor(private user: U, private grant: Grant<U, C, RMap>) {}
 
   read<K extends C>(resourceType: K, resource?: RMap[K]) {
@@ -50,8 +50,10 @@ export class PermissionChecker<U extends UserBase, C extends string, RMap extend
   }
 }
 
-export class AccessControl<U extends UserBase, C extends string = string, RMap extends ResourceMap<C> = ResourceMap<C>> {
+export class AccessControl<U, C extends string = string, RMap extends ResourceMap<C> = ResourceMap<C>> {
   private grants: Record<string, Grant<U, C, RMap>> = {};
+
+  constructor(private config: ACConfig<U>) {}
 
   grant(role: string) {
     const grant = new Grant<U, C, RMap>();
@@ -62,7 +64,7 @@ export class AccessControl<U extends UserBase, C extends string = string, RMap e
   }
 
   can(user: U): PermissionChecker<U, C, RMap> | null {
-    const grant = this.grants[user.role];
+    const grant = this.grants[this.config.getUserRole(user)];
 
     if (!grant) {
       return null;

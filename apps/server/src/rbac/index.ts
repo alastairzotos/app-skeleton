@@ -14,7 +14,9 @@ interface ResourceMap {
   otherTable: OtherTable;
 }
 
-export const ac = new AccessControl<UserData, keyof ResourceMap, ResourceMap>();
+export const ac = new AccessControl<UserData, keyof ResourceMap, ResourceMap>({
+  getUserRole: (user) => user.role,
+});
 
  ac.grant('user')
   .read('collection', (user, collection) => collection.ownerId === user.userId)
