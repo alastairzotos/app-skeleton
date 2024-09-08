@@ -16,8 +16,7 @@ interface ResourceMap {
 
 export const ac = new AccessControl<UserData, keyof ResourceMap, ResourceMap>();
 
-const grant = ac.grant('user');
-grant.read('collection', )
+ ac.grant('user')
   .read('collection', (user, collection) => collection.ownerId === user.userId)
   .write('collection', (user, collection) => collection.ownerId === user.userId)
   .delete('collection', (user, collection) => collection.ownerId === user.userId);
