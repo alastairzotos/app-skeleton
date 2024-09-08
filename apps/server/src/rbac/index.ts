@@ -19,11 +19,13 @@ export const ac = new AccessControl<UserData, ResourceMap>({
 });
 
  ac.grant('user')
+  .create('collection')
   .read('collection', (user, collection) => collection.ownerId === user.userId)
-  .write('collection', (user, collection) => collection.ownerId === user.userId)
+  .update('collection', (user, collection) => collection.ownerId === user.userId)
   .delete('collection', (user, collection) => collection.ownerId === user.userId);
 
 ac.grant('admin')
+  .create('collection')
   .read('collection')
-  .write('collection')
+  .update('collection')
   .delete('collection');

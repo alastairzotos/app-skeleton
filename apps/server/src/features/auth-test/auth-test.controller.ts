@@ -12,6 +12,7 @@ export class AuthTestController {
   ) {
     console.log(user);
 
+    console.log(ac.can(user).create('collection'));
     console.log(ac.can(user).read('collection', { ownerId: user.userId }));
     console.log(ac.can(user).read('collection', { ownerId: '123' }));
     console.log(ac.can(user).read('otherTable', { someData: 'foo' }));
