@@ -7,7 +7,6 @@ import { HealthModule } from 'features/health/health.module';
 import { DrizzleModule } from 'drizzle/provider';
 import { ErrorHandlingMiddleware } from 'middleware/error-handling.middleware';
 import { ZodValidationPipe } from 'nestjs-zod';
-import { AuthMiddleware } from 'features/auth/auth.middleware';
 
 @Module({
   imports: [
