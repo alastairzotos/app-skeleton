@@ -1,16 +1,26 @@
 import { AccessControl } from "@repo/rbac";
 import { UserData } from "decorators/principal.decorator";
 
-export const ac = new AccessControl<UserData, 'collection' | 'other-table'>();
-
 export type Collection = {
   ownerId: string;
 }
 
-ac.grant('user')
-  .read<Collection>('collection', (user, collection) => collection.ownerId === user.userId)
-  .write<Collection>('collection', (user, collection) => collection.ownerId === user.userId)
-  .delete<Collection>('collection', (user, collection) => collection.ownerId === user.userId);
+export type OtherTable = {
+  someData: string;
+}
+
+interface ResourceMap {
+  collection: Collection;
+  otherTable: OtherTable;
+}
+
+export const ac = new AccessControl<UserData, keyof ResourceMap, ResourceMap>();
+
+const grant = ac.grant('user');
+grant.read('collection', )
+  .read('collection', (user, collection) => collection.ownerId === user.userId)
+  .write('collection', (user, collection) => collection.ownerId === user.userId)
+  .delete('collection', (user, collection) => collection.ownerId === user.userId);
 
 ac.grant('admin')
   .read('collection')

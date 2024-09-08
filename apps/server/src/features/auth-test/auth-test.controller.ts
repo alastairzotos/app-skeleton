@@ -13,8 +13,8 @@ export class AuthTestController {
     console.log(user);
 
     console.log(ac.can(user).read('collection', { ownerId: user.userId }));
-    console.log(ac.can(user).read('collection', { ownerId: '1234' }));
-    console.log(ac.can(user).read('other-table'));
+    console.log(ac.can(user).read('collection', { ownerId: '123' }));
+    console.log(ac.can(user).read('otherTable', { someData: 'foo' }));
     
     return 'hello';
   }
