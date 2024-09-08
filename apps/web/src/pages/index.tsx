@@ -8,6 +8,8 @@ export default function Home() {
   const router = useRouter();
   const session = useSessionContext();
 
+  console.log(!session.loading && session.accessTokenPayload)
+
   const getSecret = () => {
     fetch('http://localhost:3001/api/v1/auth-test').then(res => res.text()).then(console.log);
   }
