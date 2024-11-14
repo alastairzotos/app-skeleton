@@ -2,8 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { RequestMethod } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import supertokens from 'supertokens-node';
-import { SupertokensExceptionFilter } from 'features/auth/auth.filter';
+import { AuthService } from 'features/auth/auth.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,12 +14,11 @@ async function bootstrap() {
   });
 
   app.enableCors({
-    origin: [app.get(ConfigService).get('CLIENT_URL')],
-    allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
+    origin: app.get(ConfigService).get('CLIENT_URL'),
     credentials: true,
   });
 
-  app.useGlobalFilters(new SupertokensExceptionFilter());
+  app.get(AuthService).persona.setupExpress(app.getHttpAdapter().getInstance());
 
   await app.listen(3001);
 }

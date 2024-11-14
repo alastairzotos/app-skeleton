@@ -7,17 +7,17 @@ It includes:
 * Typescript through the whole thing
 * A turborepo monorepo with:
 * A NestJS Backend on port 3001
-  - Drizzle as an ORM with an example table
+  - Drizzle as an ORM with users and posts tables
   - Typesafe database tables using @repo/models package
-  - Auth using SuperTokens
+  - Auth using bitmetro persona
   - Utilities such as Zod validation
 * A NextJS frontend on port 3000
   - ESLint support
   - Tailwind
   - No App Router or any of that black magic
-  - Auth using SuperTokens
+  - Auth using bitmetro persona
 * A shared `models` library with example schemas
-* A simple RBAC library
+* An access control library
 
 --- 
 

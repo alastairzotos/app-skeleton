@@ -1,18 +1,17 @@
-import { Module } from '@nestjs/common';
-import { MiddlewareConsumer, NestModule } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { Global, Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { DrizzleModule } from "drizzle/provider";
+import { AuthService } from "./auth.service";
+import { AuthGuard } from "./auth.guard";
+import { AuthAdapter } from "./auth.adapter";
 
-import { SupertokensProvider } from './config.provider';
-import { SupertokensService } from './supertokens.service';
-import { AuthMiddleware } from './auth.middleware';
-
+@Global()
 @Module({
-  imports: [ConfigModule],
-  providers: [SupertokensProvider, SupertokensService],
-  exports: [SupertokensProvider, SupertokensService],
+  imports: [
+    ConfigModule,
+    DrizzleModule,
+  ],
+  exports: [AuthService, AuthAdapter, AuthGuard],
+  providers: [AuthService, AuthAdapter, AuthGuard],
 })
-export class AuthModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes('*');
-  }
-}
+export class AuthModule {}

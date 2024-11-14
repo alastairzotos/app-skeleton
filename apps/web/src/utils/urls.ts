@@ -2,6 +2,7 @@ type Url = (...args: any) => string;
 
 export const urls = {
   home: () => '/',
-  login: () => '/auth',
+  login: () => '/login',
+  register: () => '/register',
   authTest: () => '/auth-test',
 } satisfies Record<string, Url>;
