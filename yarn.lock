@@ -354,6 +354,11 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@bitmetro/accesscontrol@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@bitmetro/accesscontrol/-/accesscontrol-1.0.0.tgz#9c2bdb6836ba881ddfc5b9dd3c4cb1ddca9fa6b5"
+  integrity sha512-L2JRPcw9/YtzOmWkbbhE75XOMQnAZyGu91gWswa1RO34z3CEOkD4DS2/RY+SHJ7KyYEK6vrHfAz+aA63tgluOg==
+
 "@bitmetro/persona-node@^1.4.2":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@bitmetro/persona-node/-/persona-node-1.4.2.tgz#dd52addb413ccaef8f28d394febcb3d32fe2f50f"

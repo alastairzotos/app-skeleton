@@ -1,6 +1,6 @@
 import { ForbiddenException, NotFoundException } from "@nestjs/common";
 import { AsTable, PostSchema, User, UserRoles } from "@repo/models";
-import { AccessControl, ProtectedRepository } from "@repo/rbac";
+import { AccessControl, ProtectedRepository } from "@bitmetro/accesscontrol";
 import { Database } from "drizzle/provider";
 import { DoesExtend } from "drizzle/schemas/tables/common";
 import * as schemas from 'drizzle/schemas/tables';
@@ -39,8 +39,11 @@ export class ProtectedRepo extends ProtectedRepository<User, ResourceMap, UserRo
           where: ({ id }: { id: string }, { eq }) => eq(id, resourceId)
         })
       },
-      defaultUpdate: async (resourceType, values) => {
-        return (await this._database.update(schemas[resourceType as string]).set(values).returning())[0];
+      defaultUpdate: async (resourceType, id, values) => {
+        return (await this._database.update(schemas[resourceType as string])
+          .set(values)
+          .where(eq(schemas[resourceType as string].id, id))
+          .returning())[0];
       },
       defaultDelete: async (resourceType, id) => {
         await this._database.delete(schemas[resourceType as string]).where(eq(schemas[resourceType as string].id, id))
