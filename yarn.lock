@@ -359,29 +359,35 @@
   resolved "https://registry.yarnpkg.com/@bitmetro/accesscontrol/-/accesscontrol-1.0.0.tgz#9c2bdb6836ba881ddfc5b9dd3c4cb1ddca9fa6b5"
   integrity sha512-L2JRPcw9/YtzOmWkbbhE75XOMQnAZyGu91gWswa1RO34z3CEOkD4DS2/RY+SHJ7KyYEK6vrHfAz+aA63tgluOg==
 
-"@bitmetro/persona-node@^1.4.2":
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/@bitmetro/persona-node/-/persona-node-1.4.2.tgz#dd52addb413ccaef8f28d394febcb3d32fe2f50f"
-  integrity sha512-fFknW6Ds8ajZRLvXbbzBF5+nDyJQwuJZjmOCMGemParpzWf+rFat68cdehQF5eD7CG4Bw7ART6BFBcptqAk7mA==
+"@bitmetro/persona-node@2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@bitmetro/persona-node/-/persona-node-2.4.2.tgz#506bacf3099857dd8e707614f96dbcaaacee2971"
+  integrity sha512-7J4NxhJHjbcWdwgTZ38OgtnQazM+M3AjDPoTFVBcrjwDX+6MJADk7bYgyenNxTXSqC/Yv8vkRqe7N6efoJsqnQ==
   dependencies:
+    "@bitmetro/persona-types" "*"
     bcrypt "^5.1.1"
+    cookie-parser "^1.4.7"
+    cors "^2.8.5"
     jsonwebtoken "^9.0.2"
 
-"@bitmetro/persona-react@^1.4.5":
-  version "1.4.5"
-  resolved "https://registry.yarnpkg.com/@bitmetro/persona-react/-/persona-react-1.4.5.tgz#b85a530ab94db174e23c532b82f2f95e188113b9"
-  integrity sha512-4tsoZTEeGwzyKaJaPToS0PDMwT6lpmHs3SFqanKAPYWYenARoD807B2zAN/rdv9NtE8tSM2qKXUUdTeFjN9H3g==
+"@bitmetro/persona-react@2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@bitmetro/persona-react/-/persona-react-2.3.4.tgz#26ceb4cbf8859f6450291ea7dab5e6ad398d3df7"
+  integrity sha512-CI4jWqCthFm6sb1H6O7iwfPmtdpScCbTCi8Q0UP9RBVKWz26pIWjO02GVPo/+BkZVJBfe9LGYKVrNgSz1db70Q==
   dependencies:
+    "@bitmetro/persona-types" "*"
     "@hookform/resolvers" "^3.3.2"
-    "@react-oauth/google" "^0.11.1"
     "@tanstack/react-query" "^5.4.3"
     axios "^1.6.0"
     color "^4.2.3"
-    jsonwebtoken "^9.0.2"
-    react-facebook-login "^4.1.1"
     react-hook-form "^7.47.0"
     styled-components "^6.1.0"
     zod "^3.22.4"
+
+"@bitmetro/persona-types@*", "@bitmetro/persona-types@2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@bitmetro/persona-types/-/persona-types-2.1.1.tgz#5f8961a68d0ee3f1e563cd8192acaaeca7acd52f"
+  integrity sha512-fb0XwPle4RbQO2DQYRA95u8XUIacEqbiaBq+SfWJw6uEkWBDV+QFVnaj8m/gZXBxmkU2ETCvV7nRkscbTxYx5w==
 
 "@colors/colors@1.5.0":
   version "1.5.0"
@@ -1207,11 +1213,6 @@
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
-
-"@react-oauth/google@^0.11.1":
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/@react-oauth/google/-/google-0.11.1.tgz#f937c8d02bd37e3a6be7713b8212e9b9b9b3f914"
-  integrity sha512-tywZisXbsdaRBVbEu0VX6dRbOSL2I6DgY97woq5NMOOOz+xtDsm418vqq+Vx10KMtra3kdHMRMf0hXLWrk2RMg==
 
 "@rtsao/scc@^1.1.0":
   version "1.1.0"
@@ -2755,6 +2756,14 @@ convert-source-map@^2.0.0:
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-2.0.0.tgz#4b560f649fc4e918dd0ab75cf4961e8bc882d82a"
   integrity sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==
 
+cookie-parser@^1.4.7:
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/cookie-parser/-/cookie-parser-1.4.7.tgz#e2125635dfd766888ffe90d60c286404fa0e7b26"
+  integrity sha512-nGUvgXnotP3BsjiLX2ypbQnWoGUPIIfHQNZkkC668ntrzGWEZVW70HDEB1qnNGMicPje6EttlIgzo51YSwNQGw==
+  dependencies:
+    cookie "0.7.2"
+    cookie-signature "1.0.6"
+
 cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
@@ -2764,6 +2773,11 @@ cookie@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.5.0.tgz#d1f5d71adec6558c58f389987c366aa47e994f8b"
   integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
+
+cookie@0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.7.2.tgz#556369c472a2ba910f2979891b526b3436237ed7"
+  integrity sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==
 
 cookiejar@^2.1.4:
   version "2.1.4"
@@ -2775,7 +2789,7 @@ core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
-cors@2.8.5:
+cors@2.8.5, cors@^2.8.5:
   version "2.8.5"
   resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.5.tgz#eac11da51592dd86b9f06f6e7ac293b3df875d29"
   integrity sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==
@@ -6449,11 +6463,6 @@ react-dom@^18:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
-
-react-facebook-login@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/react-facebook-login/-/react-facebook-login-4.1.1.tgz#005121236a6ac0dee02099976fb1a3265f9d633e"
-  integrity sha512-COnHEHlYGTKipz4963safFAK9PaNTcCiXfPXMS/yxo8El+/AJL5ye8kMJf23lKSSGGPgqFQuInskIHVqGqTvSw==
 
 react-hook-form@^7.47.0:
   version "7.53.2"

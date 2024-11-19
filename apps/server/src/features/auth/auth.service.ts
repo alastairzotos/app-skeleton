@@ -14,12 +14,14 @@ export class AuthService {
     this.persona = new Persona({
       jwtSigningKey: config.get('JWT_SIGNING_KEY'),
       adapter,
+      host: config.get('API_URL'),
+      clientUrls: [config.get('CLIENT_URL')],
       config: {
         credentials: {
           google: {
             id: config.get('GOOGLE_CLIENT_ID'),
-            sectey: config.get('GOOGLE_CLIENT_SECRET'),
-          }
+            secret: config.get('GOOGLE_CLIENT_SECRET'),
+          },
         }
       }
     });

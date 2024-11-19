@@ -1,4 +1,4 @@
-type Url = (...args: any) => string;
+type Url = (...args: any) => string; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export const urls = {
   home: () => '/',
