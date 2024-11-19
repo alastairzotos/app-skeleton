@@ -370,10 +370,10 @@
     cors "^2.8.5"
     jsonwebtoken "^9.0.2"
 
-"@bitmetro/persona-react@2.3.4":
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/@bitmetro/persona-react/-/persona-react-2.3.4.tgz#26ceb4cbf8859f6450291ea7dab5e6ad398d3df7"
-  integrity sha512-CI4jWqCthFm6sb1H6O7iwfPmtdpScCbTCi8Q0UP9RBVKWz26pIWjO02GVPo/+BkZVJBfe9LGYKVrNgSz1db70Q==
+"@bitmetro/persona-react@2.3.5":
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/@bitmetro/persona-react/-/persona-react-2.3.5.tgz#42621637809b3f4c5522cf250ad1a57fd59e4736"
+  integrity sha512-dU3yK7c61yV9l7GmJtbCY96IxoGp6H/7X/Ae87H3LHNhP7OEejNJC9ouD+Q5yqlsFxXTRLlTWke5hN9oEAPwTQ==
   dependencies:
     "@bitmetro/persona-types" "*"
     "@hookform/resolvers" "^3.3.2"
