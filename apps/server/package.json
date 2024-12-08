@@ -24,7 +24,7 @@
     "db:drop-migration": "drizzle-kit drop"
   },
   "dependencies": {
-    "@bitmetro/accesscontrol": "^1.0.0",
+    "@bitmetro/accesscontrol": "^1.2.0",
     "@bitmetro/persona-node": "2.4.2",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^3.2.3",
