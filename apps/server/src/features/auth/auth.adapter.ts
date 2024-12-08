@@ -11,6 +11,10 @@ export class AuthAdapter implements PersonaAdapter<UserSchema> {
     private readonly db: Database
   ) {}
 
+  async exchangeJwtPayloadForUser(payload: { email: string; }): Promise<UserSchema> {
+    return await this.getUserByEmail(payload.email);
+  }
+
   async getUserByEmail(email: string): Promise<UserSchema> {
     return await this.db.query.usersTable.findFirst({
       where: (t, { eq }) => eq(t.email, email),
