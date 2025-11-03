@@ -1,0 +1,2 @@
+CREATE TYPE "public"."price_tier" AS ENUM('starter', 'growth', 'scale', 'enterprise');--> statement-breakpoint
+ALTER TABLE "profiles" ALTER COLUMN "tier" SET DATA TYPE "public"."price_tier" USING "tier"::"public"."price_tier";

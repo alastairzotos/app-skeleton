@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: dbname
     ports:
-      - "6433:5432"
+      - "6435:5432"
     volumes:
       - dbname_volume:/var/lib/postgresql/data
     networks:
@@ -19,9 +19,21 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+  
+  valkey:
+    image: valkey/valkey:latest
+    container_name: valkey_instance
+    restart: always
+    ports:
+      - "6389:6379"
+    volumes:
+      - valkey_data:/data
+    command: ["valkey-server", "--save", "20 1", "--loglevel", "notice"]
 
 volumes:
   dbname_volume:
+  valkey_data:
+    driver: local
 
 networks:
   app_network:

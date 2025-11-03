@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "declaration": true,
+    "baseUrl": "./src",
+    "outDir": "dist"
+  },
+  "include": ["next-env.d.ts", "src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
