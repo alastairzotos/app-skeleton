@@ -26,8 +26,6 @@ export class ProfilesService {
   }
 
   async getOrCreateProfile(user: User) {
-    this.logger.info('get_or_create_profile', { id: user.id });
-
     const existingProfile = await this.getProfileById(user.id);
 
     if (existingProfile) {
