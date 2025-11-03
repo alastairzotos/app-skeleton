@@ -9,43 +9,49 @@ import { capitalise } from "../../../utils/misc";
 import { Title } from "../../lib/typography";
 import styled from "styled-components";
 import { useAuthState } from "../../../state/auth";
+import { useGetColourTheme } from "../../../state/theme";
 
-const TierCard = styled(Card) <{ recommended?: boolean }>`
+const TierCard = styled(Card) <{ recommended?: boolean; $theme: 'light' | 'dark' }>`
   width: ${100 / priceTiers.length}%;
   position: relative;
   transition: all 0.2s ease;
   text-align: center;
   height: fit-content;
+  background-color: ${({ $theme }) => $theme === 'dark' ? '#1f1f1f' : '#ffffff'};
+  border: 1px solid ${({ $theme }) => $theme === 'dark' ? '#424242' : '#d9d9d9'};
   
   .ant-card-body {
     padding: 24px;
     display: flex;
     flex-direction: column;
     min-height: 400px;
+    background-color: ${({ $theme }) => $theme === 'dark' ? '#1f1f1f' : '#ffffff'};
   }
   
-  ${({ recommended }) => recommended && `
+  ${({ recommended, $theme }) => recommended && `
     border: 2px solid #1890ff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(24, 144, 255, 0.12);
     
     .ant-card-body {
-      background-color: #fafbff;
+      background-color: ${$theme === 'dark' ? '#252525' : '#fafbff'};
       border-radius: 6px;
     }
   `}
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: ${({ recommended }) =>
+    box-shadow: ${({ recommended, $theme }) =>
     recommended
       ? '0 8px 24px rgba(24, 144, 255, 0.2)'
-      : '0 4px 16px rgba(0, 0, 0, 0.1)'
+      : $theme === 'dark' 
+        ? '0 4px 16px rgba(255, 255, 255, 0.1)'
+        : '0 4px 16px rgba(0, 0, 0, 0.1)'
   };
   }
 `;
 
-const RecommendedBadge = styled.div`
+const RecommendedBadge = styled.div<{ $theme: 'light' | 'dark' }>`
   position: absolute;
   top: -10px;
   left: 50%;
@@ -58,7 +64,11 @@ const RecommendedBadge = styled.div`
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ $theme }) => 
+    $theme === 'dark' 
+      ? '0 2px 4px rgba(0, 0, 0, 0.3)' 
+      : '0 2px 4px rgba(0, 0, 0, 0.1)'
+  };
   z-index: 2;
 `;
 
@@ -68,14 +78,14 @@ const ButtonWrapper = styled.div`
   padding-top: 24px;
 `;
 
-const TierTitle = styled(Title)`
+const TierTitle = styled(Title)<{ $theme: 'light' | 'dark' }>`
   margin-bottom: 8px !important;
-  color: #1f2937;
+  color: ${({ $theme }) => $theme === 'dark' ? '#ffffff' : '#1f2937'} !important;
   font-size: 24px !important;
   font-weight: 600 !important;
 `;
 
-const FeaturesList = styled(List)`
+const FeaturesList = styled(List)<{ $theme: 'light' | 'dark' }>`
   .ant-list-item {
     border: none !important;
     padding: 8px 0 !important;
@@ -90,6 +100,11 @@ const FeaturesList = styled(List)`
     display: flex;
     align-items: flex-start;
     gap: 8px;
+    color: ${({ $theme }) => $theme === 'dark' ? '#ffffff' : 'inherit'} !important;
+  }
+  
+  .ant-typography.ant-typography-secondary {
+    color: ${({ $theme }) => $theme === 'dark' ? '#b0b0b0' : 'rgba(0, 0, 0, 0.45)'} !important;
   }
 `;
 
@@ -111,24 +126,24 @@ const PriceDisplay = styled.div`
   gap: 2px;
 `;
 
-const Currency = styled.span`
+const Currency = styled.span<{ $theme: 'light' | 'dark' }>`
   font-size: 18px;
   font-weight: 500;
-  color: #666;
+  color: ${({ $theme }) => $theme === 'dark' ? '#b0b0b0' : '#666'};
   margin-right: 2px;
 `;
 
-const Price = styled.span`
+const Price = styled.span<{ $theme: 'light' | 'dark' }>`
   font-size: 32px;
   font-weight: 700;
-  color: #1f2937;
+  color: ${({ $theme }) => $theme === 'dark' ? '#ffffff' : '#1f2937'};
   line-height: 1;
 `;
 
-const Period = styled.span`
+const Period = styled.span<{ $theme: 'light' | 'dark' }>`
   font-size: 14px;
   font-weight: 500;
-  color: #666;
+  color: ${({ $theme }) => $theme === 'dark' ? '#b0b0b0' : '#666'};
   margin-left: 2px;
 `;
 
@@ -140,6 +155,8 @@ export const PriceTierInfo: React.FC<Props> = ({ tier }) => {
   const { profile } = useAuthState();
   const { request: createCheckoutSession, value: checkoutSessionUrl, status: createCheckoutSessionStatus } = useQuery(createCheckoutSessionRequest);
 
+  const theme = useGetColourTheme();
+
   useEffect(() => {
     if (createCheckoutSessionStatus === 'success' && checkoutSessionUrl) {
       window.location.href = checkoutSessionUrl;
@@ -150,21 +167,22 @@ export const PriceTierInfo: React.FC<Props> = ({ tier }) => {
   const isCurrentTier = profile?.tier === tier;
 
   return (
-    <TierCard recommended={tierFeatures.recommended}>
+    <TierCard recommended={tierFeatures.recommended} $theme={theme}>
       {tierFeatures.recommended && (
-        <RecommendedBadge>
+        <RecommendedBadge $theme={theme}>
           Recommended
         </RecommendedBadge>
       )}
-      <TierTitle>{capitalise(tier)}</TierTitle>
+      <TierTitle $theme={theme}>{capitalise(tier)}</TierTitle>
       <PriceContainer>
         <PriceDisplay>
-          <Currency>$</Currency>
-          <Price>{tierFeatures.price}</Price>
-          <Period>/month</Period>
+          <Currency $theme={theme}>$</Currency>
+          <Price $theme={theme}>{tierFeatures.price}</Price>
+          <Period $theme={theme}>/month</Period>
         </PriceDisplay>
       </PriceContainer>
       <FeaturesList
+        $theme={theme}
         dataSource={tierFeatures.active}
         renderItem={(item) => (
           <List.Item>
@@ -179,6 +197,7 @@ export const PriceTierInfo: React.FC<Props> = ({ tier }) => {
       />
       {tierFeatures.inactive && (
         <FeaturesList
+          $theme={theme}
           dataSource={tierFeatures.inactive}
           renderItem={(item) => (
             <List.Item>
@@ -208,12 +227,14 @@ export const PriceTierInfo: React.FC<Props> = ({ tier }) => {
             fontSize: '16px',
             fontWeight: '600',
             backgroundColor: isCurrentTier 
-              ? '#f5f5f5' 
+              ? (theme === 'dark' ? '#2f2f2f' : '#f5f5f5')
               : tierFeatures.recommended ? '#1890ff' : '#52c41a',
             borderColor: isCurrentTier 
-              ? '#d9d9d9' 
+              ? (theme === 'dark' ? '#424242' : '#d9d9d9')
               : tierFeatures.recommended ? '#1890ff' : '#52c41a',
-            color: isCurrentTier ? '#8c8c8c' : 'white',
+            color: isCurrentTier 
+              ? (theme === 'dark' ? '#888888' : '#8c8c8c')
+              : 'white',
             boxShadow: isCurrentTier 
               ? 'none'
               : tierFeatures.recommended 
