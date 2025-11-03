@@ -26,11 +26,11 @@ const TierCard = styled(Card) <{ recommended?: boolean; $theme: 'light' | 'dark'
     flex-direction: column;
     min-height: 400px;
     background-color: ${({ $theme }) => $theme === 'dark' ? '#1f1f1f' : '#ffffff'};
+    border-radius: 8px;
   }
   
   ${({ recommended, $theme }) => recommended && `
     border: 2px solid #1890ff;
-    border-radius: 8px;
     box-shadow: 0 2px 8px rgba(24, 144, 255, 0.12);
     
     .ant-card-body {
