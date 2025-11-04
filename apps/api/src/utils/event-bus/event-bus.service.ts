@@ -33,7 +33,7 @@ export class EventBus extends BaseRepository {
   async emit<Q extends QueueName, J extends JobType<Q>>(
     queue: Q, 
     type: J, 
-    payload: J extends keyof JobPayloads ? JobPayloads[J] : never
+    payload: J extends keyof JobPayloads['jobs'] ? JobPayloads['jobs'][J] : never
   ) {
     await this.db().insert(outboxTable).values({ 
       queue: queue as string, 

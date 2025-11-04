@@ -3,20 +3,20 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
-import { queues } from '@repo/common';
+import { QueueConfig, queues } from '@repo/common';
 import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
 import { DrizzleModule } from 'drizzle/provider';
 import { ErrorHandlingMiddleware } from 'middleware/error-handling.middleware';
 import { RequestContextMiddleware } from 'middleware/request-context.middleware';
 import { AuthModule } from 'modules/auth/auth.module';
 import { BillingModule } from 'modules/billing/billing.module';
+import { EmailModule } from 'modules/email/email.module';
 import { HealthModule } from 'modules/health/health.module';
 import { ProfilesModule } from 'modules/profiles/profiles.module';
 import { WinstonModule } from 'nest-winston';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { createWinstonConfig } from 'utils/logger/logger';
 import { PostsModule } from './modules/posts/posts.module';
-import { EmailModule } from 'modules/email/email.module';
 
 @Module({
   imports: [
@@ -54,7 +54,8 @@ import { EmailModule } from 'modules/email/email.module';
       },
     }),
     BullModule.registerQueue(
-      ...Object.keys(queues).map((name) => ({ name })),
+      ...Object.entries(queues as Record<string, QueueConfig>)
+        .map(([name, { options }]) => ({ name, ...options })),
     ),
     HealthModule,
     DrizzleModule,
