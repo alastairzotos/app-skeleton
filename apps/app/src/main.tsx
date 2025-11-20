@@ -1,4 +1,6 @@
 import * as Sentry from "@sentry/react";
+import { App as AntdApp } from 'antd';
+import { StyleProvider } from '@ant-design/cssinjs';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './styles/index.css';
@@ -13,6 +15,10 @@ if (getEnv().nodeEnv === 'production') {
 
 createRoot(document.getElementById('root')!).render(
   // <StrictMode>
-  <App />
+  <StyleProvider hashPriority="high">
+    <AntdApp>
+      <App />
+    </AntdApp>
+  </StyleProvider>
   // </StrictMode>,
 )

@@ -2,6 +2,7 @@ import { Global, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { DrizzleModule } from "drizzle/provider";
 import { AuthGuard } from "./auth.guard";
+import { AdminGuard } from "./admin.guard";
 
 @Global()
 @Module({
@@ -9,7 +10,7 @@ import { AuthGuard } from "./auth.guard";
     ConfigModule,
     DrizzleModule,
   ],
-  exports: [AuthGuard],
-  providers: [AuthGuard],
+  exports: [AuthGuard, AdminGuard],
+  providers: [AuthGuard, AdminGuard],
 })
 export class AuthModule {}

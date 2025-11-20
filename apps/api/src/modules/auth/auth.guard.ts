@@ -1,27 +1,13 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import * as Sentry from "@sentry/nestjs";
 import { Request } from 'express';
-import { getSupabase } from 'modules/auth/supabase-admin';
+import { addUserToRequest } from './auth.utils';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>()
-    const authHeader = request.headers.authorization;
-    const token = authHeader?.replace('Bearer ', '')
-
-    if (!token) {
-      throw new UnauthorizedException('No token provided');
-    }
-
-    const supabase = getSupabase();
-    const { data: { user }, error } = await supabase.auth.getUser(token);
-
-    if (error || !user) {
-      throw new UnauthorizedException('Invalid or expired token');
-    }
-
-    (request as any).principal = user;
+    const user = await addUserToRequest(request);
 
     if (process.env.NODE_ENV === 'production') {
       if (user) {

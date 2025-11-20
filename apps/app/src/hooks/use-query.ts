@@ -1,3 +1,4 @@
+import { App as AntdApp } from "antd";
 import { useState } from "react";
 import { useUpgradeState } from "../state/upgrade";
 
@@ -9,9 +10,17 @@ export const combineStatuses = (...stati: Array<FetchStatus | undefined>): Fetch
   if (stati.filter(s => s === 'success').length === stati.length) return 'success';
 }
 
+interface Options<T extends any> {
+  onSuccess?: (value: T) => void;
+  onError?: (e: any) => void;
+}
+
 export const useQuery = <T extends any, A extends any[]>(
   fetcher: (...args: A) => Promise<T>,
+  options?: Options<T>,
 ) => {
+  const { notification } = AntdApp.useApp();
+
   const { setUpdateModalOpen } = useUpgradeState();
 
   const [status, setStatus] = useState<FetchStatus | undefined>();
@@ -29,6 +38,8 @@ export const useQuery = <T extends any, A extends any[]>(
 
       mutate(result);
       setStatus('success');
+      options?.onSuccess?.(result);
+
     } catch (e: any) {
       if (e.message === 'exceeds_limits') {
         setUpdateModalOpen(true, 'limits-exceeded');
@@ -36,6 +47,13 @@ export const useQuery = <T extends any, A extends any[]>(
 
       setError(e.message);
       setStatus('error');
+      options?.onError?.(e);
+
+      notification.error({
+        placement: 'topRight',
+        message: 'Error',
+        description: e?.message,
+      });
 
       throw e;
     }
