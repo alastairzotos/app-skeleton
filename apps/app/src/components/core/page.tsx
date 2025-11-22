@@ -2,13 +2,12 @@ import React, { useRef } from "react";
 
 import { ConfigProvider, Layout, theme } from 'antd';
 import { useLocation } from "react-router-dom";
+import { ToolbarContextProvider } from "../../contexts/toolbar";
 import { useUpgradeState } from "../../state/upgrade";
-import { APP_BAR_HEIGHT } from "../../utils/constants";
 import { AppBar } from "./app-bar";
 import { AutoBreadcrumbs } from "./auto-breadcrumbs";
 import { SideMenu } from "./side-menu";
 import { UpgradeModal } from "./upgrade-modal";
-import { ToolbarContextProvider } from "../../contexts/toolbar";
 
 const { Content } = Layout;
 
@@ -42,7 +41,6 @@ export const Page: React.FC<React.PropsWithChildren> = ({ children }) => {
 
             <div
               style={{
-                height: `calc(100% - ${APP_BAR_HEIGHT}px)`,
                 overflowY: 'scroll',
                 padding: 12
               }}
