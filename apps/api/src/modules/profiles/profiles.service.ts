@@ -80,20 +80,27 @@ export class ProfilesService {
 
     const profile = await this.getProfileById(id);
 
+    const handleDelete = async () => {
+      const { error } = await getSupabase().auth.admin.deleteUser(id);
+      
+      if (error) {
+        throw new InternalServerErrorException(error.message);
+      }
+
+      await this.profilesRepo.deleteProfile(user, id);
+    }
+
     if (profile.stripeSubscriptionId) {
       try {
         await this.stripeService.cancelSubscription(profile.stripeSubscriptionId);
+
+        await handleDelete();
       } catch (e) {
         this.logger.error('cancel_subscription_error', { message: e.message });
       }
+    } else {
+      await handleDelete();
     }
-
-    const { error } = await getSupabase().auth.admin.deleteUser(id);
-    if (error) {
-      throw new InternalServerErrorException(error.message);
-    }
-
-    await this.profilesRepo.deleteProfile(user, id);
   }
 
   async checkProfileCanPerformAction(user: User, action: ProfileAction, resourceId?: string) {
